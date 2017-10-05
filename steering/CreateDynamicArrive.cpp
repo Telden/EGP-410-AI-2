@@ -1,4 +1,4 @@
-#include"Game.h"
+#include "Game.h"
 #include "UnitManager.h"
 #include "GameMessageManager.h"
 #include "CreateDynamicArrive.h"

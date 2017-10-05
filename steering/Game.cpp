@@ -167,13 +167,13 @@ bool Game::init()
 	Vector2D vel2(0.0f, 0.0f);
 	mpAIUnit = new KinematicUnit(pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 100.0f);
 	//give steering behavior
-	mpAIUnit->dynamicArrive(mpUnit);
+	mpAIUnit->dynamicFlee(mpUnit);
 	mpUnitManager->addUnit(mpAIUnit);
 
 	Vector2D pos3(500.0f, 500.0f);
 	mpAIUnit2 = new KinematicUnit(pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f);
 	//give steering behavior
-	mpAIUnit2->dynamicSeek(mpUnit);
+	mpAIUnit->dynamicFlee(mpUnit);
 	mpUnitManager->addUnit(mpAIUnit2);
 
 	return true;

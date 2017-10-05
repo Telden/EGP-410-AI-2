@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClInclude Include="CreateDynamicArrive.h" />
     <ClInclude Include="CreateDynamicSeek.h" />
+    <ClInclude Include="CreateWanderFlee.h" />
+    <ClInclude Include="CreateWanderSeek.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DeleteUnitMessage.h" />
     <ClInclude Include="DrawTextMessage.h" />
@@ -36,10 +38,13 @@
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Steering.h" />
     <ClInclude Include="UnitManager.h" />
+    <ClInclude Include="BlendedSteering.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CreateDynamicArrive.cpp" />
     <ClCompile Include="CreateDynamicSeek.cpp" />
+    <ClCompile Include="CreateWanderFlee.cpp" />
+    <ClCompile Include="CreateWanderSeek.cpp" />
     <ClCompile Include="DeleteUnitMessage.cpp" />
     <ClCompile Include="DrawTextMessage.cpp" />
     <ClCompile Include="DynamicArriveSteering.cpp" />
@@ -63,6 +68,7 @@
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Steering.cpp" />
     <ClCompile Include="UnitManager.cpp" />
+    <ClCompile Include="BlendedSteering.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{07ED8114-0659-4424-9468-50DBBEA5882A}</ProjectGuid>

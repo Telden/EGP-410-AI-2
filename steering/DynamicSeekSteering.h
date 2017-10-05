@@ -14,8 +14,8 @@ public:
 
 	virtual Steering* getSteering();
 
-private:
-	KinematicUnit* mpTarget;
-	KinematicUnit* mpMover;
-	bool mShouldFlee;
+	private:
+		KinematicUnit* mpTarget;
+		KinematicUnit* mpMover;
+		bool mShouldFlee;
 };
