@@ -9,6 +9,7 @@ KinematicSeekSteering::KinematicSeekSteering(KinematicUnit *pMover, const Vector
 
 Steering* KinematicSeekSteering::getSteering()
 {
+	
 	mLinear = mTarget - mpMover->getPosition();
 	mLinear.normalize();
 	mLinear *= mpMover->getMaxVelocity();

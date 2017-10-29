@@ -30,13 +30,18 @@ public:
 	float getAngular() const { return mAngular; };
 	void setLinear( const Vector2D& linear ) { mLinear = linear; };
 	void setAngular( float angular ) { mAngular = angular; };
+	void setRadius(float radius) { mRadius = radius; };
 	bool shouldApplyDirectly() const { return mApplyDirectly; };
 
 	virtual Steering* getSteering() { return this; };//overridden by sub-classes
+
+
 
 protected:
 	Vector2D mLinear;//linear velocity
 	float mAngular;//angular velocity
 	bool mApplyDirectly;
+	float mRadius;// For steering algorithms that need to detect other objects (optional)
+
 
 };

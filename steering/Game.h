@@ -17,10 +17,13 @@ class GameMessageManager;
 class Timer;
 class UnitManager;
 class InputManager;
+class UiManager;
 
 const IDType BACKGROUND_SPRITE_ID = 0;
 const IDType PLAYER_ICON_SPRITE_ID = 1;
 const IDType AI_ICON_SPRITE_ID = 2;
+const IDType HORIZONTAL_WALL_ID = 3;
+const IDType VERTICAL_WALL_ID = 4;
 
 const float LOOP_TARGET_TIME = 33.3f;//how long should each frame of execution take? 30fps = 33.3ms/frame
 
@@ -43,6 +46,7 @@ public:
 	inline GraphicsBufferManager* getGraphicsBufferManager() const { return mpGraphicsBufferManager; };
 	inline SpriteManager* getSpriteManager() const { return mpSpriteManager; };
 	inline UnitManager* getUnitManager()  const { return mpUnitManager; };
+	inline UiManager* getUiManager() const { return mpUiManager; };
 	inline GameMessageManager* getMessageManager() { return mpMessageManager; };
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
@@ -56,6 +60,7 @@ private:
 	GraphicsBufferManager* mpGraphicsBufferManager;
 	SpriteManager* mpSpriteManager;
 	GameMessageManager* mpMessageManager;
+	UiManager* mpUiManager;
 	Timer* mpLoopTimer;
 	Timer* mpMasterTimer;
 	UnitManager* mpUnitManager;
@@ -66,10 +71,16 @@ private:
 	IDType mBackgroundBufferID;
 	IDType mPlayerIconBufferID;
 	IDType mEnemyIconBufferID;
+	IDType mHorizontalWallID;
+	IDType mVerticalWallID;
+
 
 	KinematicUnit* mpUnit;
 	KinematicUnit* mpAIUnit;
 	KinematicUnit* mpAIUnit2;
+
+	
+
 };
 
 float genRandomBinomial();//range -1:1 from "Artificial Intelligence for Games", Millington and Funge
