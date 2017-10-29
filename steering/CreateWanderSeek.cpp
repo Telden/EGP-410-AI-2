@@ -15,5 +15,6 @@ CreateWanderSeek::~CreateWanderSeek()
 
 void CreateWanderSeek::process()
 {
-	//Call unit Manager here
+	//Call unit Manager here to create a unit with the wander and seek behavior
+	//UNIT_MANAGER->createDynamicWanderSeekUnit();
 }

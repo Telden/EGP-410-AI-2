@@ -13,6 +13,8 @@ Champlain College
 //forward declarations
 class Sprite;
 class GraphicsBuffer;
+class BlendedSteering;
+class CollisionAvoidance;
 
 extern Steering gNullSteering;//global object - can point to it for a "NULL" Steering
 
@@ -33,8 +35,9 @@ public:
 	Vector2D getVelocity() const { return mVelocity; };
 	float getMaxAcceleration() const { return mMaxAcceleration; };
 	void setVelocity( const Vector2D& velocity ){ mVelocity = velocity; };
-
+	void setMaxVelocity(float maxVelocity) { mMaxVelocity = maxVelocity; };
 	virtual void setNewOrientation();//face the direction you are moving
+	Steering* getSteering() { return mpCurrentSteering; };
 
 	//draw yourself to the indicated buffer
 	void draw( GraphicsBuffer* pBuffer );
@@ -48,7 +51,14 @@ public:
 	void dynamicSeek( KinematicUnit* pTarget );
 	void dynamicFlee( KinematicUnit* pTarget );
 	void dynamicArrive( KinematicUnit* pTarget );
+	Steering* dynamicWanderandSeek(KinematicUnit* pTarget, float reactionRadius);
+	Steering* dynamicWanderandFlee(KinematicUnit* pTarget, float reactionRadius);
+	//void dynamicWanderandSeek(KinematicUnit* pTarget, float reactionRadius);
+	//void dynamicWanderandFlee(KinematicUnit* pTarget, float reactionRadius);
+	BlendedSteering* blendedSteering(KinematicUnit* pTarget);
+	CollisionAvoidance* collisionAvoidance(KinematicUnit* pUnit, float radius);
 	void kinematicWander();
+	void setSteering(Steering* pSteering);
 
 private:
 	Sprite* mpSprite;
@@ -57,6 +67,6 @@ private:
 	float mMaxVelocity;
 	float mMaxAcceleration;
 
-	void setSteering( Steering* pSteering );
+	
 
 };

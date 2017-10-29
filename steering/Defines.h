@@ -13,4 +13,5 @@ const IDType HIGHEST_ID = 9999;
 #define GRAPHICS_SYSTEM gpGame->getGraphicsSystem()
 #define UNIT_MANAGER gpGame->getUnitManager()
 #define SPRITE_MANAGER gpGame->getSpriteManager()
+#define UI_MANAGER gpGame->getUiManager()
 #define END_GAME gpGame->endGame()

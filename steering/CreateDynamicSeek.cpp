@@ -15,5 +15,5 @@ CreateDynamicSeek::~CreateDynamicSeek()
 
 void CreateDynamicSeek::process()
 {
-	UNIT_MANAGER->createDynamicSeekUnit();
+	//UNIT_MANAGER->createDynamicSeekUnit();
 }

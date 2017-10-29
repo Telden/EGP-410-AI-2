@@ -15,5 +15,6 @@ CreateWanderFlee::~CreateWanderFlee()
 
 void CreateWanderFlee::process()
 {
-	//Call Unit manager
+	//Call unit Manager here to create a unit with the wander and flee behavior
+	//UNIT_MANAGER->createDynamicWanderFleeUnit();
 }

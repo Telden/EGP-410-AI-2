@@ -8,12 +8,12 @@ CreateDynamicArrive::CreateDynamicArrive() : GameMessage(CREATE_DYNAMIC_ARRIVE_U
 	
 }
 
-CreateDynamicArrive::~CreateDynamicArrive()
+CreateDynamicArrive::~CreateDynamicArrive()                    
 {
 
 }
 
 void CreateDynamicArrive::process()
 {
-	UNIT_MANAGER->createDynamicArriveUnit();
+	//UNIT_MANAGER->createDynamicArriveUnit();
 }

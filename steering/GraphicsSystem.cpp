@@ -8,7 +8,6 @@
 GraphicsSystem::GraphicsSystem()
 	:mpDisplay(NULL)
 	,mpBackBuffer(NULL)
-	,mpFont(NULL)
 	,mWidth(0)
 	,mHeight(0)
 {
@@ -27,21 +26,6 @@ bool GraphicsSystem::init( int width, int height )
 	if(!mpDisplay) 
 	{
 		fprintf(stderr, "GraphicsSystem::failed to create display!\n");
-		return false;
-	}
-
-	al_init_font_addon();
-	if (!al_init_ttf_addon())
-	{
-		printf("ttf font addon not initted properly!\n");
-		return false;
-	}
-
-	//actually load the font
-	mpFont = al_load_ttf_font("cour.ttf", 20, 0);
-	if (mpFont == NULL)
-	{
-		printf("ttf font file not loaded properly!\n");
 		return false;
 	}
 
@@ -68,8 +52,7 @@ void GraphicsSystem::cleanup()
 	delete mpBackBuffer;
 	mpBackBuffer = NULL;
 
-	al_destroy_font(mpFont);
-	mpFont = NULL;
+	
 }
 
 void GraphicsSystem::swap()
@@ -107,9 +90,4 @@ ALLEGRO_BITMAP* GraphicsSystem::switchTargetBitmap( ALLEGRO_BITMAP* pNewTarget )
 	al_set_target_bitmap( pNewTarget );
 
 	return pOldTarget;
-}
-
-void GraphicsSystem::drawPointerText(float red, float green, float blue, float mouseX, float mouseY, std::string mousePos)
-{
-	al_draw_text(mpFont, al_map_rgb(red, green, blue), mouseX, mouseY, ALLEGRO_ALIGN_CENTRE, mousePos.c_str());
 }

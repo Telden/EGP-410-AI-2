@@ -22,6 +22,7 @@
 #include "PlayerMoveToMessage.h"
 #include "UnitManager.h"
 #include "InputManager.h"
+#include "UiManager.h"
 
 Game* gpGame = NULL;
 
@@ -75,6 +76,11 @@ bool Game::init()
 	}
 
 	mpGraphicsBufferManager = new GraphicsBufferManager();
+
+	// Create Ui Manager and initialize allegro font
+	mpUiManager = new UiManager();
+	mpUiManager->init();
+
 	mpSpriteManager = new SpriteManager();
 
 	//startup a lot of allegro stuff
@@ -132,6 +138,8 @@ bool Game::init()
 	mBackgroundBufferID = mpGraphicsBufferManager->loadBuffer("wallpaper.bmp");
 	mPlayerIconBufferID = mpGraphicsBufferManager->loadBuffer("arrow.bmp");
 	mEnemyIconBufferID = mpGraphicsBufferManager->loadBuffer("enemy-arrow.bmp");
+	mHorizontalWallID = mpGraphicsBufferManager->loadBuffer("Horizontal_Wall.bmp");
+	mVerticalWallID = mpGraphicsBufferManager->loadBuffer("Vertical_Wall.bmp");
 
 	//setup sprites
 	GraphicsBuffer* pBackGroundBuffer = mpGraphicsBufferManager->getBuffer(mBackgroundBufferID);
@@ -151,30 +159,44 @@ bool Game::init()
 	{
 		pEnemyArrow = mpSpriteManager->createAndManageSprite(AI_ICON_SPRITE_ID, pAIBuffer, 0, 0, pAIBuffer->getWidth(), pAIBuffer->getHeight());
 	}
+	GraphicsBuffer* pVerticalWallBuffer = mpGraphicsBufferManager->getBuffer(mVerticalWallID);
+	Sprite* pVerticalWallSprite = NULL;
+	if (pVerticalWallBuffer != NULL)
+	{
+		pVerticalWallSprite = mpSpriteManager->createAndManageSprite(VERTICAL_WALL_ID, pVerticalWallBuffer, 0, 0, pVerticalWallBuffer->getWidth(), pVerticalWallBuffer->getHeight());
+	}
+	GraphicsBuffer* pHorizontalWallBuffer = mpGraphicsBufferManager->getBuffer(mHorizontalWallID);
+	Sprite* pHorizontalWallSprite = NULL;
+	if (pHorizontalWallBuffer != NULL)
+	{
+		pHorizontalWallSprite = mpSpriteManager->createAndManageSprite(HORIZONTAL_WALL_ID , pHorizontalWallBuffer, 0, 0, pHorizontalWallBuffer->getWidth(), pHorizontalWallBuffer->getHeight());
+	}
+
+
 
 	//Create UnitManager
 	mpUnitManager = new UnitManager();
 	mpInputManager = new InputManager();
 	mpInputManager->init();
 
-	//setup units
-	Vector2D pos(0.0f, 0.0f);
-	Vector2D vel(0.0f, 0.0f);
-	mpUnit = new KinematicUnit(pArrowSprite, pos, 1, vel, 0.0f, 200.0f, 10.0f);
-	mpUnitManager->addUnit(mpUnit);
+	////setup units
+	//Vector2D pos(0.0f, 0.0f);
+	//Vector2D vel(0.0f, 0.0f);
+	//mpUnit = new KinematicUnit(pArrowSprite, pos, 1, vel, 0.0f, 200.0f, 10.0f);
+	//mpUnitManager->addUnit(mpUnit);
 
-	Vector2D pos2(1000.0f, 500.0f);
-	Vector2D vel2(0.0f, 0.0f);
-	mpAIUnit = new KinematicUnit(pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 100.0f);
-	//give steering behavior
-	mpAIUnit->dynamicFlee(mpUnit);
-	mpUnitManager->addUnit(mpAIUnit);
+	//Vector2D pos2(1000.0f, 500.0f);
+	//Vector2D vel2(0.0f, 0.0f);
+	////mpAIUnit = new KinematicUnit(pEnemyArrow, pos2, 1, vel2, 0.0f, 180.0f, 120.0f); //Changed the max acceleration
+	//////give steering behavior
+	////mpAIUnit->dynamicWanderandSeek(mpUnit);
+	////mpUnitManager->addUnit(mpAIUnit);
 
-	Vector2D pos3(500.0f, 500.0f);
-	mpAIUnit2 = new KinematicUnit(pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f);
-	//give steering behavior
-	mpAIUnit->dynamicFlee(mpUnit);
-	mpUnitManager->addUnit(mpAIUnit2);
+	//Vector2D pos3(500.0f, 500.0f);
+	//mpAIUnit2 = new KinematicUnit(pEnemyArrow, pos3, 1, vel2, 0.0f, 180.0f, 100.0f);
+	////give steering behavior
+	//mpAIUnit2->dynamicWanderandFlee(mpUnit);
+	//mpUnitManager->addUnit(mpAIUnit2);
 
 	return true;
 }
@@ -203,6 +225,8 @@ void Game::cleanup()
 	mpSpriteManager = NULL;
 	delete mpMessageManager;
 	mpMessageManager = NULL;
+	delete mpUiManager;
+	mpUiManager = NULL;
 
 	al_destroy_sample(mpSample);
 	mpSample = NULL;
@@ -231,9 +255,9 @@ void Game::processLoop()
 	pBackgroundSprite->draw(*(mpGraphicsSystem->getBackBuffer()), 0, 0);
 
 	mpUnitManager->updateUnits(LOOP_TARGET_TIME / 1000.0f);
-
+	mpUnitManager->updateUI();
 	mpInputManager->checkInput();
-
+	mpUiManager->update();
 	mpMessageManager->processMessagesForThisframe();
 
 	GRAPHICS_SYSTEM->swap();

@@ -11,6 +11,8 @@ class InputManager : public Trackable
 private:
 
 	bool mDKeyPressed = true;
+	std::string mCurrentSelection = "V";
+	char mInputSelection = 'V';
 public:
 	InputManager();
 	~InputManager();

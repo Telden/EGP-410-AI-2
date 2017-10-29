@@ -1,15 +1,10 @@
-//Steering Behaviors
-#include "DynamicSeekSteering.h"
-#include "KinematicWanderSteering.h"
-#include "DynamicArriveSteering.h"
+#include "Game.h"
 #include "BlendedSteering.h"
-
-//The unit
 #include "KinematicUnit.h"
 
-BlendedSteering::BlendedSteering()
+BlendedSteering::BlendedSteering(KinematicUnit* pUnit)
 {
-
+	mpUnit = pUnit;
 }
 
 BlendedSteering::~BlendedSteering()
@@ -17,21 +12,48 @@ BlendedSteering::~BlendedSteering()
 
 }
 
-//Purpose: To add a new behavior with its weight to be used within the weighted blending algorithm
-void BlendedSteering::addBehaviorandWeight(Steering* steeringPtr, float weight)
+void BlendedSteering::addBehaviorAndWeight(BehaviorAndWeight* nBAW)
 {
-	BehaviorAndWeight* pNewWeightedBehavior = new BehaviorAndWeight(steeringPtr, weight);
-	mpWeightedBehaviors.push_back(pNewWeightedBehavior);
+	mpBehaviors.push_back(nBAW);
 }
 
-Steering* BlendedSteering::getWeightedSteering()
+Steering* BlendedSteering::getSteering()
 {
-	Steering* pSteering = new Steering();
-	//float pSteering;
-
-	for (int i = 0; i < mpWeightedBehaviors.size(); i++)
+	mLinear = 0;
+	mAngular = 0;
+	//Steering* pSteering = new Steering();
+	for (int i = 0; i < mpBehaviors.size(); i++)
 	{
-		//pSteering += mpWeightedBehaviors[i]->mWeight * mpWeightedBehaviors[i]->mpBehavior->getSteering()->getLinear();
+		mLinear +=  mpBehaviors[i]->mBehavior->getSteering()->getLinear() * mpBehaviors[i]->mWeight;
+		mAngular += mpBehaviors[i]->mBehavior->getSteering()->getAngular() *  mpBehaviors[i]->mWeight;
 	}
-	return pSteering;
+
+
+	checkMaxSpeed(mLinear, mpUnit->getMaxAcceleration());
+	mAngular = max(mAngular, MAX_WANDER_ROTATION);
+	
+	//checkMaxRotation(mAngular, MAX_WANDER_ROTATION);
+	
+	return this;
 }
+
+void BlendedSteering::checkMaxSpeed(Vector2D& linear, float maximum)
+{
+	if (linear.getX() > maximum )
+		linear.setX(maximum);
+	if(linear.getX() < (maximum*-1))
+		linear.setX(maximum * -1);
+	if (linear.getY() > maximum )
+		linear.setY(maximum);
+	if(linear.getX() < (maximum*-1))
+		linear.setY(maximum* -1);
+	
+
+
+}
+
+//void BlendedSteering::checkMaxRotation(float& angular, float maximum)
+//{
+//	if (angular > maximum)
+//		angular = maximum;
+//}

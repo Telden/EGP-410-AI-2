@@ -1,29 +1,23 @@
 #pragma once
-#include "Steering.h" //Don't know if I need this
+#include "Steering.h"
+#include "BehaviorandWeight.h"
 #include <vector>
+
+class KinematicUnit;
+class Vector2D;
 
 class BlendedSteering : public Steering
 {
 public:
-	BlendedSteering();
+	BlendedSteering(KinematicUnit* pUnit);
 	~BlendedSteering();
-	Steering* getWeightedSteering();
-	void addBehaviorandWeight(Steering* steeringPtr, float weight);
-
-	//Struct contains one of the unit's behaviors and the weight assigned to that behavior
-	struct BehaviorAndWeight : public Trackable
-	{
-		Steering* mpBehavior;
-		float mWeight;
-
-		BehaviorAndWeight(Steering* steering, float weight) { mpBehavior = steering; mWeight = weight; }
-		~BehaviorAndWeight() {}
-		
-	};
-
+	void checkMaxSpeed(Vector2D& a, float b);
+	//void checkMaxRotation(float& angular, float maximum);
+	void addBehaviorAndWeight(BehaviorAndWeight* nBAW);
+	virtual Steering* getSteering();
 private:
-	std::vector<BehaviorAndWeight*> mpWeightedBehaviors;
-	float mMaxAcceleration = 1.0f;
-	float mMaxRotaion = 1.0f;
-
+	std::vector<BehaviorAndWeight*> mpBehaviors;
+	KinematicUnit* mpUnit;
+	const float MAX_WANDER_ROTATION = 1.0f;
+	
 };

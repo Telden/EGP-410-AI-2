@@ -1,9 +1,9 @@
 #include "DynamicSeekSteering.h"
 #include "KinematicUnit.h"
 
-DynamicSeekSteering::DynamicSeekSteering(KinematicUnit *pMover, KinematicUnit* pTarget, bool shouldFlee)
+DynamicSeekSteering::DynamicSeekSteering(KinematicUnit *pMover, Vector2D target, bool shouldFlee)
 :mpMover(pMover)
-,mpTarget(pTarget)
+,mTarget(target)
 ,mShouldFlee(shouldFlee)
 {
 	mApplyDirectly = false;
@@ -13,15 +13,15 @@ Steering* DynamicSeekSteering::getSteering()
 {
 	if( !mShouldFlee )
 	{
-		mLinear = mpTarget->getPosition() - mpMover->getPosition();
+		mLinear = mTarget - mpMover->getPosition();
 	}
 	else
 	{
-		mLinear = mpMover->getPosition() - mpTarget->getPosition();
+		mLinear = mpMover->getPosition() - mTarget;
 	}
 
 	mLinear.normalize();
-	mLinear *= mpMover->getMaxVelocity();
+	mLinear *= mpMover->getMaxAcceleration();
 	mAngular = 0;
 	return this;
 }
