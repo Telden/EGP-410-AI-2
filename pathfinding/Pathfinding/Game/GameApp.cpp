@@ -19,6 +19,9 @@
 #include "GridVisualizer.h"
 #include "DebugDisplay.h"
 #include "PathfindingDebugContent.h"
+#include "Dijkstra.h"
+#include "AStar.h"
+#include "InputManager.h"
 
 #include <fstream>
 #include <vector>
@@ -63,7 +66,10 @@ bool GameApp::init()
 	//init the nodes and connections
 	mpGridGraph->init();
 
+	//mpPathfinder = new AStar(mpGridGraph, this);
+	//mpPathfinder = new Dijkstra(mpGridGraph);
 	mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+
 
 	//load buffers
 	mpGraphicsBufferManager->loadBuffer( BACKGROUND_ID, "wallpaper.bmp");
@@ -78,6 +84,8 @@ bool GameApp::init()
 	//debug display
 	PathfindingDebugContent* pContent = new PathfindingDebugContent( mpPathfinder );
 	mpDebugDisplay = new DebugDisplay( Vector2D(0,12), pContent );
+
+	mpInputManager = new InputManager();
 
 	mpMasterTimer->start();
 	return true;
@@ -102,6 +110,9 @@ void GameApp::cleanup()
 
 	delete mpDebugDisplay;
 	mpDebugDisplay = NULL;
+
+	delete mpInputManager;
+	mpInputManager = NULL;
 }
 
 void GameApp::beginLoop()
@@ -112,6 +123,7 @@ void GameApp::beginLoop()
 
 void GameApp::processLoop()
 {
+	mpInputManager->checkInput();
 	//get back buffer
 	GraphicsBuffer* pBackBuffer = mpGraphicsSystem->getBackBuffer();
 	//copy to back buffer
@@ -125,20 +137,7 @@ void GameApp::processLoop()
 
 	mpMessageManager->processMessagesForThisframe();
 
-	ALLEGRO_MOUSE_STATE mouseState;
-	al_get_mouse_state( &mouseState );
-
-	if( al_mouse_button_down( &mouseState, 1 ) )//left mouse click
-	{
-		static Vector2D lastPos( 0.0f, 0.0f );
-		Vector2D pos( mouseState.x, mouseState.y );
-		if( lastPos.getX() != pos.getX() || lastPos.getY() != pos.getY() )
-		{
-			GameMessage* pMessage = new PathToMessage( lastPos, pos );
-			mpMessageManager->addMessage( pMessage, 0 );
-			lastPos = pos;
-		}
-	}
+	
 
 	//should be last thing in processLoop
 	Game::processLoop();
@@ -147,4 +146,24 @@ void GameApp::processLoop()
 bool GameApp::endLoop()
 {
 	return Game::endLoop();
+}
+
+
+void GameApp::switchPath(char input)
+{
+	switch (input)
+	{
+	case 'A':
+		printf("Switching to A*\n");
+		delete mpPathfinder;
+		mpPathfinder = new AStar(mpGridGraph, this);
+		break;
+	case 'D':
+		printf("Switching to Dijkstra\n");
+		delete mpPathfinder;
+		mpPathfinder = new Dijkstra(mpGridGraph);
+		break;
+	default:
+		cout << input << " is not a valid input in the switch path function\n";
+	}
 }

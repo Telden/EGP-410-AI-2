@@ -1,4 +1,4 @@
-#include <allegro5/allegro.h>
+
 #include "GridPathfinder.h"
 #include "GridGraph.h"
 #include "GridVisualizer.h"
@@ -34,12 +34,12 @@ void GridPathfinder::drawVisualization( Grid* pGrid, GraphicsBuffer* pDest )
 		mpVisualizer->clear();
 	}
 
-	static ALLEGRO_COLOR pathColor = al_map_rgb( 255, 64, 64 );
+	//static ALLEGRO_COLOR pathColor = al_map_rgb( 255, 64, 64 );
 	static ALLEGRO_COLOR startColor = al_map_rgb(1, 255, 128);
 	static ALLEGRO_COLOR stopColor = al_map_rgb(1, 128, 255);
 
 	unsigned int numNodes = mPath.getNumNodes();
-	ALLEGRO_COLOR currentPathColor = pathColor;
+	//ALLEGRO_COLOR currentPathColor = pathColor;
 
 	if (numNodes > 0)
 	{
@@ -58,3 +58,21 @@ void GridPathfinder::drawVisualization( Grid* pGrid, GraphicsBuffer* pDest )
 	mpVisualizer->draw(*pDest);
 }
 #endif
+
+void GridPathfinder::switchColor(char input)
+{
+	switch (input)
+	{
+	case 'A':
+		std::cout << "Changing color to blue\n";
+			currentPathColor = al_map_rgb(0, 0, 255);
+			break;
+	case 'D':
+		std::cout << "Changing color to red\n";
+		currentPathColor = al_map_rgb(255, 0, 0);
+		break;
+	default:
+		std::cout << "Invalid input in the switch color function\n";
+
+	}
+}

@@ -66,10 +66,19 @@
     <ClInclude Include="PathfindingDebugContent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dijkstra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AStar.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Dijkstra.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeRecord.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchPathingMessage.h">
       <Filter>Header Files\pathfinding</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,10 +128,19 @@
     <ClCompile Include="PathfindingDebugContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeRecord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Dijkstra.cpp">
       <Filter>Source Files\pathfinding</Filter>
     </ClCompile>
-    <ClCompile Include="AStar.cpp">
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchPathingMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
